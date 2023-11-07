@@ -13,14 +13,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProviderController extends AbstractController
 {
     /**
-     * @Route("/provider", name="list")
+     * @Route("/", name="homepage")
      */
     public function index(): Response
     {
-        // Supongamos que tienes una entidad llamada Product
         $repository = $this->getDoctrine()->getRepository(Provider::class);
-
-        // Encuentra todos los productos
         $providers = $repository->findAll();
 
         return $this->render('provider/index.html.twig', [
@@ -28,7 +25,6 @@ class ProviderController extends AbstractController
             'providers' => $providers
         ]);
     }
-
 
 
      /**
@@ -60,7 +56,7 @@ class ProviderController extends AbstractController
             $entityManager->persist($provider);
             $entityManager->flush();
 
-            return $this->redirectToRoute('list');
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render('provider/new.html.twig', [
@@ -72,7 +68,7 @@ class ProviderController extends AbstractController
     }
 
      /**
-     * @Route("/{id}/edit", name="edit")
+     * @Route("/provider/{id}/edit", name="edit")
      */
     public function update(Request $request, $id = null): Response
     {
@@ -80,27 +76,25 @@ class ProviderController extends AbstractController
         $provider = $this->getDoctrine()->getRepository(Provider::class)->find($id);
 
         $form = $this->createForm(ProviderFormType::class, $provider);
+        $form->handleRequest($request);
 
         $repository = $this->getDoctrine()->getRepository(ProviderType::class);
         $providerTypes = $repository->findAll();
 
-        // $form = $this->createForm(EditPasswordType::class, $user);
-        // $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $data = $form->getData();
 
-            return $this->redirectToRoute('list');
+            $provider->setName($data->getName());
+            $provider->setEmail($data->getEmail());
+            $provider->setContactPhone($data->getContactPhone());
+            $provider->setActive($data->getActive());
+            $provider->setProviderTypeId((int)$data->getProviderTypeId());
+            $provider->setUpdatedAt();
+            $entityManager->persist($provider);
+            $entityManager->flush();
 
-            // if (!$provider) {
-            //     $provider = new provider();
-            // }
-            // $provider->setName('Keyboard');
-            // $provider->setEmail(1999);
-            // $provider->setContact_phone('Ergonomic and stylish!');
-            // $provider->setActive('Ergonomic and stylish!');
-            // $provider->setProviderTypeId('Ergonomic and stylish!');
-            
+            return $this->redirectToRoute('homepage');
+
         }
    
         return $this->render('provider/edit.html.twig', [
@@ -123,7 +117,7 @@ class ProviderController extends AbstractController
         $repositoryObject->remove($provider);
         $repositoryObject->flush();
 
-        return $this->redirectToRoute('list');
+        return $this->redirectToRoute('homepage');
     }
 
 }

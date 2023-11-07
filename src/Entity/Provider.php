@@ -94,6 +94,11 @@ class Provider
         return $this->active;
     }
 
+    public function getprovider_type_id(): ?string
+    {
+        return $this->provider_type_id;
+    }
+
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -130,6 +135,8 @@ class Provider
 
         return $this;
     }
+
+    
     public function setCreatedAt(): self
     {
         $this->created_at = new \DateTime('@'.strtotime('now'));

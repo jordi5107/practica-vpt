@@ -12,59 +12,56 @@
                             <h2>Gestion de <b>Proveedores</b></h2>
                         </div>
                         <div class="col-sm-6">
-                            <a href="{{path('list')}}" class="btn btn-success"><span>Volver</span></a>
+                            <a href="{{path('homepage')}}" class="btn btn-success"><span>Volver</span></a>
                         </div>
                     </div>
                 </div>
-                <!-- <form name="provider_form" action="{{ path('create')}}" method="POST"> -->
                     {{ form_start(form, {'action' : path('create')} ) }}
-                    <div class="modal-header">						
-                        <h4 class="modal-title">Crear proveedor</h4>
-                    </div>
-                    <div class="modal-body">					
-                        <div class="form-group">
-                            <!-- <label>Nombre</label> -->
-                            {{ form_row(form.name) }}
-                            <!-- <input type="text" name="name" value="{{ provider.name }}" class="form-control" required> -->
+                        <div class="modal-header">						
+                            <h4 class="modal-title">Crear proveedor</h4>
                         </div>
-                        <div class="form-group">
-                            <!-- <label>Correo electrónico</label> -->
-                            {{ form_row(form.email) }}
+                        <div class="modal-body">					
+                            <div class="form-group">
+                                <!-- <label>Nombre</label> -->
+                                {{ form_row(form.name) }}
+                                <!-- <input type="text" name="name" value="{{ provider.name }}" class="form-control" required> -->
+                            </div>
+                            <div class="form-group">
+                                <!-- <label>Correo electrónico</label> -->
+                                {{ form_row(form.email) }}
 
-                            <!-- <input type="email" name="email" value="{{ provider.email }}" class="form-control" required> -->
+                                <!-- <input type="email" name="email" value="{{ provider.email }}" class="form-control" required> -->
+                            </div>
+                            <div class="form-group">
+                                <!-- <label>Telefono de contacto</label> -->
+                                {{ form_row(form.contact_phone) }}
+
+                                <!-- <input type="text" name="contact_phone" value="{{ provider.contactPhone }}" class="form-control" required> -->
+                            </div>
+                            <div class="form-group">
+                                <!-- <label>Tipo de proveedor</label> -->
+                                {{ form_row(form.provider_type_id) }}
+
+                                <!-- <select class="form-control" name="provider_type_id" id="" >
+                                    {% for providerType in providerTypes %}
+                                        <option value="{{providerType.id}}">{{providerType.name}}</option>
+                                    {% endfor %}
+                                </select> -->
+                            </div>		
+                            <div class="form-group">
+                                <!-- <label>Activo</label> -->
+                                {{ form_row(form.active) }}
+
+                                <!-- <select class="form-control" name="active" id="" >
+                                    <option value="1">Si</option>
+                                    <option value="0">No</option>
+                                </select> -->
+                            </div>					
                         </div>
-                        <div class="form-group">
-                            <!-- <label>Telefono de contacto</label> -->
-                            {{ form_row(form.contact_phone) }}
-
-                            <!-- <input type="text" name="contact_phone" value="{{ provider.contactPhone }}" class="form-control" required> -->
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-success" value="Crear">
                         </div>
-                        <div class="form-group">
-                            <!-- <label>Tipo de proveedor</label> -->
-                            {{ form_row(form.provider_type_id) }}
-
-                            <!-- <select class="form-control" name="provider_type_id" id="" >
-                                {% for providerType in providerTypes %}
-                                    <option value="{{providerType.id}}">{{providerType.name}}</option>
-                                {% endfor %}
-                            </select> -->
-                        </div>		
-                        <div class="form-group">
-                            <!-- <label>Activo</label> -->
-                            {{ form_row(form.active) }}
-
-                            <!-- <select class="form-control" name="active" id="" >
-                                <option value="1">Si</option>
-                                <option value="0">No</option>
-                            </select> -->
-                        </div>					
-                    </div>
-                    <div class="modal-footer">
-                        <input type="submit" class="btn btn-success" value="Crear">
-                    </div>
                     {{ form_end(form) }}
-                    
-                <!-- </form> -->
             </div>
         </div>        
     </div>
