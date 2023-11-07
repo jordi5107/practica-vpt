@@ -1,21 +1,49 @@
 version: '3'
 
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-15}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+  nginx:
+    container_name: practica-vpt-nginx
+    build: docker/nginx
+    ports:
+      - '8088:80'
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - ./:/var/www/app
+      - ./docker/nginx/default-compose.conf:/etc/nginx/conf.d/default-compose.conf
+    networks:
+      - my-network-vpt
 
-volumes:
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###
+  php:
+    container_name: practica-vpt-php
+    build: docker/php
+    volumes:
+      - ./:/var/www/app
+    networks:
+      - my-network-vpt
+
+  mysql:
+    container_name: practica-vpt-mysql
+    build: docker/mysql
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+    volumes:
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - my-network-vpt
+
+  phpmyadmin:
+    container_name: practica-vpt-phpmyadmin
+    build: docker/phpmyadmin
+    restart: on-failure
+    ports:
+      - 7476:80
+    environment:
+      - PMA_HOST=mysql
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./docker/phpmyadmin/upload.ini:/usr/local/etc/php/php.ini
+    networks:
+      - my-network-vpt
+
+networks:
+  my-network-vpt:

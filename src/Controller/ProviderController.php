@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProviderController extends AbstractController
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/provider", name="homepage")
      */
     public function index(): Response
     {

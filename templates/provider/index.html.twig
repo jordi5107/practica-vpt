@@ -23,6 +23,8 @@
                             <th>Correo</th>
                             <th>Teléfono de contacto</th>
                             <th>Tipo de proveedor</th>
+                            <th>Fecha de creación</th>
+                            <th>Fecha de actualización</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -43,7 +45,8 @@
                                 <td>Complemento</td>
 
                                 {% endif %}
-
+                                <td>{{ provider.createdAt|date('d-m-Y') }}</td>
+                                <td>{{ provider.updatedAt|date('d-m-Y') }}</td>
                                 <td>
                                     <a href="{{ path('edit', { id : provider.id}) }}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                     <a href="{{ path('delete', {id : provider.id}) }}" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>

@@ -99,6 +99,16 @@ class Provider
         return $this->provider_type_id;
     }
 
+    public function getcreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    public function getupdatedAt()
+    {
+        return $this->updated_at;
+    }
+
     public function setName(string $name): self
     {
         $this->name = $name;
